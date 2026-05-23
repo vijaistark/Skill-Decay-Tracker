@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}{{ skill.skill_name }} - Skill Decay Tracker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-3">{{ skill.skill_name }}</h1>
+        
+        <!-- Warning Alert -->
+        {% if warning %}
+        <div class="alert alert-warning" role="alert">
+            <strong>⚠️ Warning!</strong> This skill needs practice. You haven't practiced it in {{ days_since }} days and its strength is {{ "%.0f"|format(strength) }}/100.
+        </div>
+        {% endif %}
+        
+        <!-- Skill Info Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><small class="text-muted">Level:</small> <strong>{{ skill.level }}</strong></p>
+                        <p><small class="text-muted">Learning Date:</small> <strong>{{ skill.learning_date.strftime('%Y-%m-%d') }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><small class="text-muted">Total Practice Hours:</small> <strong>{{ total_hours }}</strong></p>
+                        <p><small class="text-muted">Days Since Practice:</small> <strong>{{ days_since }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Strength Meter -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Skill Strength: {{ "%.0f"|format(strength) }}/100</h5>
+                <div class="progress" style="height: 25px;">
+                    <div class="progress-bar {% if strength >= 70 %}bg-success{% elif strength >= 40 %}bg-warning{% else %}bg-danger{% endif %}" 
+                         role="progressbar" 
+                         style="width: {{ strength }}%; font-size: 14px; display: flex; align-items: center; justify-content: center; color: white;"
+                         aria-valuenow="{{ strength }}" aria-valuemin="0" aria-valuemax="100">
+                        {{ "%.0f"|format(strength) }}%
+                    </div>
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    Strength is calculated based on recent practice activity and inactivity.
+                </small>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="mb-4">
+            <a href="{{ url_for('log_practice', skill_id=skill.id) }}" class="btn btn-success">+ Log Practice</a>
+            <a href="{{ url_for('edit_skill', skill_id=skill.id) }}" class="btn btn-warning">Edit Skill</a>
+            <a href="{{ url_for('skills') }}" class="btn btn-secondary">Back to Skills</a>
+        </div>
+        
+        <!-- Practice Logs -->
+        <h3 class="mb-3">Practice History</h3>
+        {% if practice_logs %}
+        <div class="card">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Hours</th>
+                        <th>Activity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in practice_logs %}
+                    <tr>
+                        <td><small>{{ log.practice_date.strftime('%Y-%m-%d') }}</small></td>
+                        <td><strong>{{ log.hours_practiced }}h</strong></td>
+                        <td>
+                            {% if log.activity_description %}
+                                {{ log.activity_description }}
+                            {% else %}
+                                <em class="text-muted">No description</em>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            No practice logs yet. <a href="{{ url_for('log_practice', skill_id=skill.id) }}">Log your first practice session</a>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Quick Info</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <small class="text-muted">Status:</small><br>
+                        <span class="badge {% if strength >= 70 %}bg-success{% elif strength >= 40 %}bg-warning{% else %}bg-danger{% endif %}">
+                            {% if strength >= 70 %}Strong{% elif strength >= 40 %}At Risk{% else %}Critical{% endif %}
+                        </span>
+                    </li>
+                    <li class="mb-2">
+                        <small class="text-muted">Total Sessions:</small><br>
+                        <strong>{{ practice_logs|length }}</strong>
+                    </li>
+                    <li class="mb-2">
+                        <small class="text-muted">Total Hours:</small><br>
+                        <strong>{{ total_hours }}</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
