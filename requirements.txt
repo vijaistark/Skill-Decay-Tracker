@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 Flask==2.3.3
 Flask-SQLAlchemy==3.0.5
 Werkzeug==2.3.7
 SQLAlchemy==2.0.31
-=======
-Flask>=2.0
-SQLAlchemy>=1.4
-Flask-SQLAlchemy>=2.5
-PyMySQL>=1.0
-Werkzeug>=2.0
->>>>>>> fefaacf838da7a5a0b0d6eb3b493613589f7456a
