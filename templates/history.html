@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="dashboard-header mb-4">
+    <div>
+      <h1 class="dashboard-title">Interview History</h1>
+      <p class="dashboard-subtitle">Review past mock interviews and remove entries if needed.</p>
+    </div>
+    <div>
+      <a href="/add" class="btn btn-primary">Record new interview</a>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Score</th>
+              <th>Result</th>
+              <th>Key Scores</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for it in interviews %}
+              <tr>
+                <td>{{ it.created_at.strftime('%b %d, %Y') }}</td>
+                <td>{{ it.category }}</td>
+                <td><strong>{{ it.overall_score }}/10</strong></td>
+                <td>
+                  <span class="badge bg-{{ 'success' if it.result == 'pass' else 'danger' }}">{{ it.result|capitalize }}</span>
+                </td>
+                <td>
+                  {% if it.score %}
+                    <div class="small text-muted">
+                      T{{ it.score.technical_score }} · C{{ it.score.communication_score }} · P{{ it.score.problem_solving_score }}
+                    </div>
+                    <div class="small text-muted">
+                      Conf{{ it.score.confidence_score }} · Dbg{{ it.score.debugging_score }}
+                    </div>
+                  {% else %}
+                    <span class="text-muted">No score details</span>
+                  {% endif %}
+                </td>
+                <td class="text-end">
+                  <form method="post" action="{{ url_for('interviews.delete_interview', interview_id=it.id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+            {% if interviews|length == 0 %}
+              <tr>
+                <td colspan="6" class="text-center text-secondary py-4">No interviews recorded yet. Add one to start tracking progress.</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

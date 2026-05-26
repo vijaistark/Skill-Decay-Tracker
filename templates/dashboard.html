@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 
 {% block title %}Dashboard - Skill Decay Tracker{% endblock %}
@@ -232,4 +233,232 @@ document.addEventListener('DOMContentLoaded', function() {
     {% endif %}
 });
 </script>
+=======
+{% extends 'base.html' %}
+{% block content %}
+  {# dashboard wrapper #}
+  <div class="dashboard-shell">
+    {# page title and subtitle #}
+    <div class="dashboard-header mb-4 text-center">
+      <div>
+        <h1 class="dashboard-title">Dashboard</h1>
+        <p class="dashboard-subtitle">A clean, minimal view of your interview progress.</p>
+      </div>
+    </div>
+
+    {# top metrics row #}
+    <div class="row g-3 mb-4 justify-content-center">
+    <div class="col-6 col-md-3">
+      <div class="card minimal-card h-100">
+        <div class="card-body py-3 px-3">
+          <p class="metric-label mb-1">Total</p>
+          <h3 class="metric-value mb-0">{{ metrics.total_interviews }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card minimal-card h-100">
+        <div class="card-body py-3 px-3">
+          <p class="metric-label mb-1">Pass</p>
+          <h3 class="metric-value mb-0">{{ metrics.pass_ratio }}%</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card minimal-card h-100">
+        <div class="card-body py-3 px-3">
+          <p class="metric-label mb-1">Average</p>
+          <h3 class="metric-value mb-0">{{ metrics.avg_score }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card minimal-card h-100">
+        <div class="card-body py-3 px-3">
+          <p class="metric-label mb-1">Best</p>
+          <h3 class="metric-value mb-0">{{ metrics.highest_score }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-lg-8">
+      <div class="card h-100">
+        <div class="card-header">Skill Averages</div>
+        <div class="card-body">
+          <div class="chart-box mb-2">
+            <canvas id="avgChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Pass / Fail</div>
+        <div class="card-body">
+          <div class="chart-box mb-2">
+            <canvas id="doughnutChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header">Recent Interviews</div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th>Interview</th>
+                  <th>Date</th>
+                  <th>Score</th>
+                  <th>Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for it in recent %}
+                  <tr>
+                    <td>{{ it.category }} Mock</td>
+                    <td>{{ it.created_at.strftime('%b %d') }}</td>
+                    <td>{{ it.overall_score }}/10</td>
+                    <td><span class="badge bg-{{ 'success' if it.result == 'pass' else 'danger' }}">{{ it.result|capitalize }}</span></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <div class="card-header">Top Skills</div>
+        <div class="card-body">
+          <div class="strength-row mb-2">
+            <span class="strength-icon text-success">✓</span>
+            Technical Knowledge
+          </div>
+          <div class="strength-row mb-2">
+            <span class="strength-icon text-success">✓</span>
+            Problem Solving
+          </div>
+          <div class="strength-row">
+            <span class="strength-icon text-success">✓</span>
+            Debugging
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    {# footer note #}
+    <footer class="dashboard-footer text-center py-3">
+      Keep practicing! Your consistency is the key to success.
+    </footer>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      const avgCanvas = document.getElementById('avgChart');
+      if (avgCanvas) {
+        const averages = {{ averages|tojson }};
+        const ctx = avgCanvas.getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Technical Knowledge','Communication','Problem Solving','Confidence','Debugging'],
+            datasets: [{
+              label: 'Skill Average',
+              data: averages,
+              backgroundColor: averages.map(score => score >= 6 ? 'rgba(54, 162, 235, 0.75)' : 'rgba(220, 53, 69, 0.75)'),
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1,
+              maxBarThickness: 40
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { display: false } },
+              y: {
+                beginAtZero: true,
+                suggestedMax: 10,
+                ticks: { stepSize: 1 }
+              }
+            }
+          }
+        });
+      }
+
+      const doughnutCanvas = document.getElementById('doughnutChart');
+      if (doughnutCanvas) {
+        const ctx = doughnutCanvas.getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Pass', 'Fail'],
+            datasets: [{
+              data: [{{ metrics.pass_ratio }}, {{ 100 - metrics.pass_ratio }}],
+              backgroundColor: ['rgba(54, 162, 235, 0.85)', 'rgba(220, 53, 69, 0.85)'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }
+          }
+        });
+      }
+
+      const trendCanvas = document.getElementById('trendChart');
+      if (trendCanvas) {
+        fetch('/analytics/data')
+          .then(response => response.json())
+          .then(data => {
+            if (!Array.isArray(data) || data.length === 0) return;
+            const labels = data.map(d => d.label);
+            const scores = data.map(d => d.overall);
+            const ctx2 = trendCanvas.getContext('2d');
+            new Chart(ctx2, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: 'Interview Score',
+                  data: scores,
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  backgroundColor: 'rgba(54, 162, 235, 0.15)',
+                  fill: true,
+                  tension: 0.3,
+                  pointRadius: 3
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    suggestedMax: 10,
+                    ticks: { stepSize: 1 }
+                  }
+                }
+              }
+            });
+          })
+          .catch(() => {});
+      }
+    });
+  </script>
+
+>>>>>>> fefaacf838da7a5a0b0d6eb3b493613589f7456a
 {% endblock %}
