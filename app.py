@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from models import db, User, Skill, PracticeLog
@@ -371,9 +370,6 @@ def skill_detail(skill_id):
                           warning=warning)
 
 
-# ============================================================================
-# DASHBOARD ROUTE
-# ============================================================================
 
 @app.route('/dashboard')
 @login_required
@@ -408,12 +404,10 @@ def dashboard():
         weakest_skill = min(skill_data, key=lambda x: x['strength'])
         average_strength = sum(s['strength'] for s in skill_data) / total_skills if total_skills > 0 else 0
         
-        # Get recent practice logs (last 10)
         recent_logs = PracticeLog.query.join(Skill).filter(
             Skill.user_id == user.id
         ).order_by(PracticeLog.practice_date.desc()).limit(10).all()
         
-        # Get skills with warnings
         skills_with_warnings = [s for s in skill_data if s['warning']]
     
     return render_template('dashboard.html',
@@ -427,10 +421,6 @@ def dashboard():
                           skills=skills)
 
 
-# ============================================================================
-# ERROR HANDLERS
-# ============================================================================
-
 @app.errorhandler(404)
 def page_not_found(e):
     """Handle 404 errors"""
@@ -443,46 +433,5 @@ def internal_error(e):
     db.session.rollback()
     return render_template('500.html'), 500
 
-
-# ============================================================================
-# MAIN
-# ============================================================================
-
 if __name__ == '__main__':
-=======
-import os
-from flask import Flask, render_template
-from database import init_db
-
-def create_app():
-    app = Flask(__name__)
-    # session secret and database configuration
-    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret')
-    db_url = os.environ.get('DATABASE_URL')
-    if db_url:
-        app.config['SQLALCHEMY_DATABASE_URI'] = db_url
-    else:
-        db_path = os.path.join(app.instance_path, 'db.sqlite3')
-        os.makedirs(app.instance_path, exist_ok=True)
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    init_db(app)
-
-    @app.route('/')
-    def index():
-        return render_template('index.html')
-
-    # register blueprints
-    from routes.auth import auth_bp
-    from routes.interviews import interview_bp
-
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(interview_bp)
-
-    return app
-
-if __name__ == '__main__':
-    app = create_app()
->>>>>>> fefaacf838da7a5a0b0d6eb3b493613589f7456a
     app.run(debug=True)
