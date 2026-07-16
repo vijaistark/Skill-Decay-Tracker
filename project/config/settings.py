@@ -5,9 +5,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'replace-this-with-secure-key'
 
-DEBUG = True
+import os
 
-ALLOWED_HOSTS = []
+# DEBUG controlled by environment for safe production defaults
+DEBUG = os.getenv("DEBUG", "False") == "True"
+
+# Default allowed hosts include localhost and Vercel domains; allow additional via env var
+DEFAULT_ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".vercel.app",
+]
+
+# Env var ALLOWED_HOSTS can be a comma-separated list; merge with defaults without duplicates
+env_hosts = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '').split(',') if h.strip()]
+ALLOWED_HOSTS = list(dict.fromkeys(DEFAULT_ALLOWED_HOSTS + env_hosts))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
