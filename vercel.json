@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "project/config/wsgi.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "project/config/wsgi.py" }
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "project.config.settings",
+    "PYTHONUNBUFFERED": "1"
+  }
+}
