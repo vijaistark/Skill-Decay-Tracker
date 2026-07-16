@@ -1,0 +1,401 @@
+/* =======================================================================
+   Skill Decay Tracker - Main Styles
+   Simple, clean, beginner-friendly styling
+   ======================================================================= */
+
+:root {
+	--primary-color: #0d6efd;
+	--success-color: #198754;
+	--warning-color: #ffc107;
+	--danger-color: #dc3545;
+	--info-color: #0dcaf0;
+	--light-bg: #f8f9fa;
+	--border-color: #dee2e6;
+}
+
+/* Global Styles */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background-color: #ffffff;
+	color: #333;
+	line-height: 1.6;
+	min-height: 100vh;
+}
+
+html, body {
+	height: 100%;
+}
+
+main {
+	min-height: calc(100vh - 200px);
+}
+
+/* ======================================
+   Typography
+   ====================================== */
+
+h1, h2, h3, h4, h5, h6 {
+	color: #222;
+	margin-bottom: 1rem;
+	font-weight: 600;
+}
+
+p {
+	margin-bottom: 1rem;
+}
+
+a {
+	color: var(--primary-color);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* ======================================
+   Navbar
+   ====================================== */
+
+.navbar {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	padding: 1rem 0;
+}
+
+.navbar-brand {
+	font-size: 1.5rem;
+	color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-link {
+	margin-left: 0.5rem;
+	color: #666 !important;
+	transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+	color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-link.active {
+	color: var(--primary-color) !important;
+	font-weight: 600;
+}
+
+/* ======================================
+   Cards
+   ====================================== */
+
+.card {
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	transition: all 0.3s ease;
+}
+
+.card:hover {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+	border-bottom: 1px solid var(--border-color);
+	padding: 1rem;
+	background-color: #f8f9fa;
+}
+
+.card-body {
+	padding: 1.5rem;
+}
+
+.card-footer {
+	border-top: 1px solid var(--border-color);
+	background-color: #ffffff;
+	padding: 1rem;
+}
+
+/* ======================================
+   Buttons
+   ====================================== */
+
+.btn {
+	border-radius: 6px;
+	padding: 0.65rem 1rem;
+	font-weight: 600;
+	transition: all 0.2s ease;
+	border: 1px solid transparent;
+	color: #ffffff;
+	text-align: center;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 42px;
+}
+
+.btn:hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn-primary,
+button.btn-primary,
+a.btn-primary,
+input[type="submit"].btn-primary {
+	background-color: #0d6efd !important;
+	color: #ffffff !important;
+	border-color: #0b5ed7 !important;
+	background-image: none !important;
+	opacity: 1 !important;
+	visibility: visible !important;
+	text-shadow: none !important;
+}
+
+.btn-primary:hover,
+button.btn-primary:hover,
+a.btn-primary:hover,
+input[type="submit"].btn-primary:hover {
+	background-color: #0a58ca !important;
+	color: #ffffff !important;
+}
+
+.btn-success,
+button.btn-success,
+a.btn-success {
+	background-color: var(--success-color) !important;
+	color: white !important;
+	border-color: #198754 !important;
+}
+
+.btn-success:hover,
+button.btn-success:hover,
+a.btn-success:hover {
+	background-color: #218838 !important;
+	color: white !important;
+}
+
+.btn-warning,
+button.btn-warning,
+a.btn-warning {
+	background-color: var(--warning-color) !important;
+	color: #212529 !important;
+	border-color: #ffc107 !important;
+}
+
+.btn-warning:hover,
+button.btn-warning:hover,
+a.btn-warning:hover {
+	background-color: #e0a800 !important;
+	color: #212529 !important;
+}
+
+.btn-danger,
+button.btn-danger,
+a.btn-danger {
+	background-color: var(--danger-color) !important;
+	color: white !important;
+	border-color: #dc3545 !important;
+}
+
+.btn-danger:hover,
+button.btn-danger:hover,
+a.btn-danger:hover {
+	background-color: #c82333 !important;
+	color: white !important;
+}
+
+.btn-outline-danger,
+button.btn-outline-danger,
+a.btn-outline-danger {
+	background-color: var(--danger-color) !important;
+	color: #ffffff !important;
+	border-color: #dc3545 !important;
+}
+
+.btn-outline-danger:hover,
+button.btn-outline-danger:hover,
+a.btn-outline-danger:hover {
+	background-color: #c82333 !important;
+	color: #ffffff !important;
+}
+
+.btn-info,
+button.btn-info,
+a.btn-info {
+	background-color: var(--info-color) !important;
+	color: white !important;
+	border-color: #0dcaf0 !important;
+}
+
+.btn-info:hover,
+button.btn-info:hover,
+a.btn-info:hover {
+	background-color: #138496 !important;
+	color: white !important;
+}
+
+.btn-secondary,
+button.btn-secondary,
+a.btn-secondary {
+	background-color: #6c757d !important;
+	color: white !important;
+	border-color: #6c757d !important;
+}
+
+.btn-secondary:hover,
+button.btn-secondary:hover,
+a.btn-secondary:hover {
+	background-color: #5a6268 !important;
+	color: white !important;
+}
+
+.btn-sm {
+	padding: 0.45rem 0.85rem;
+	font-size: 0.9rem;
+}
+
+/* ======================================
+   Forms
+   ====================================== */
+
+.form-control,
+.form-select {
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-label {
+	font-weight: 500;
+	margin-bottom: 0.5rem;
+	color: #333;
+}
+
+textarea.form-control {
+	resize: vertical;
+	font-family: inherit;
+}
+
+/* ======================================
+   Alerts
+   ====================================== */
+
+.alert {
+	border-radius: 6px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.alert-primary {
+	background-color: #e7f3ff;
+	border-color: #b3d9ff;
+	color: #004085;
+}
+
+.alert-success {
+	background-color: #d4edda;
+	border-color: #a6d68f;
+	color: #155724;
+}
+
+.alert-warning {
+	background-color: #fff3cd;
+	border-color: #ffecb5;
+	color: #856404;
+}
+
+.alert-danger {
+	background-color: #f8d7da;
+	border-color: #f5c2c7;
+	color: #721c24;
+}
+
+.alert-info {
+	background-color: #d1ecf1;
+	border-color: #a8dadc;
+	color: #0c5460;
+}
+
+.alert h4, .alert h5 {
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+}
+
+/* ======================================
+   Tables
+   ====================================== */
+
+.table {
+	margin-bottom: 0;
+}
+
+.table thead th {
+	border-bottom: 2px solid var(--border-color);
+	padding: 1rem;
+	font-weight: 600;
+	background-color: #f8f9fa;
+	color: #333;
+}
+
+.table tbody td {
+	padding: 1rem;
+	border-bottom: 1px solid var(--border-color);
+	vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+	background-color: #f8f9fa;
+}
+
+/* ======================================
+   Badges
+   ====================================== */
+
+.badge {
+	border-radius: 4px;
+	padding: 0.35rem 0.6rem;
+	font-size: 0.85rem;
+	font-weight: 500;
+}
+
+.badge.bg-success {
+	background-color: var(--success-color) !important;
+	color: white;
+}
+
+.badge.bg-warning {
+	background-color: var(--warning-color) !important;
+	color: #333;
+}
+
+.badge.bg-danger {
+	background-color: var(--danger-color) !important;
+	color: white;
+}
+
+.badge.bg-info {
+	background-color: var(--info-color) !important;
+	color: white;
+}
+
+.badge.bg-primary {
+	background-color: var(--primary-color) !important;
+	color: white;
+}
+
+/* ====================================== */
+

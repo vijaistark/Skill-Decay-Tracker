@@ -1,0 +1,57 @@
+{% extends "navigation_base.html" %}
+
+{% block title %}{{ skill.skill_name }} - Skill Details{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3>{{ skill.skill_name }}</h3>
+                <p>Level: {{ skill.level }}</p>
+                <p>Strength: {{ strength }}</p>
+                <p>Days since practice: {{ days_since }}</p>
+                {% if warning %}
+                    <div class="alert alert-warning">This skill needs attention.</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4>Practice Logs</h4>
+                {% if practice_logs %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Hours</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in practice_logs %}
+                            <tr>
+                                <td>{{ log.practice_date.date }}</td>
+                                <td>{{ log.hours_practiced }}</td>
+                                <td>{{ log.activity_description }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No practice logs yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>Actions</h5>
+                <a href="{% url 'log_practice' skill.id %}" class="btn btn-primary mb-2">Log Practice</a>
+                <a href="{% url 'edit_skill' skill.id %}" class="btn btn-secondary mb-2">Edit Skill</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "navigation_base.html" %}
+
+{% block title %}Your Skills - Skill Decay Tracker{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Your Skills</h2>
+    <a href="{% url 'add_skill' %}" class="btn btn-primary">Add Skill</a>
+</div>
+
+{% if skills %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Skill</th>
+            <th>Level</th>
+            <th>Strength</th>
+            <th>Last Practiced</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for skill in skills %}
+        <tr>
+            <td>{{ skill.skill_name }}</td>
+            <td>{{ skill.level }}</td>
+            <td>{{ skill.get_strength_score }}</td>
+            <td>{{ skill.get_days_since_practice }} days ago</td>
+            <td>
+                <a href="{% url 'skill_detail' skill.id %}" class="btn btn-sm btn-secondary">View</a>
+                <a href="{% url 'edit_skill' skill.id %}" class="btn btn-sm btn-info">Edit</a>
+                <form action="{% url 'delete_skill' skill.id %}" method="post" style="display:inline-block;">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>You have no skills yet. <a href="{% url 'add_skill' %}">Add one now</a>.</p>
+{% endif %}
+{% endblock %}

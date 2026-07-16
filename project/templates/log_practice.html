@@ -1,0 +1,31 @@
+{% extends "navigation_base.html" %}
+
+{% block title %}Log Practice - {{ skill.skill_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h3>Log Practice for {{ skill.skill_name }}</h3>
+                <form method="POST" action="{% url 'log_practice' skill.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="hours_practiced" class="form-label">Hours Practiced</label>
+                        <input type="number" step="0.1" class="form-control" id="hours_practiced" name="hours_practiced" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="practice_date" class="form-label">Practice Date</label>
+                        <input type="date" class="form-control" id="practice_date" name="practice_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="activity_description" class="form-label">Activity Description</label>
+                        <textarea class="form-control" id="activity_description" name="activity_description"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Log Practice</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

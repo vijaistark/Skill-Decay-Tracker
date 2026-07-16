@@ -1,0 +1,31 @@
+{% extends "navigation_base.html" %}
+
+{% block title %}Edit Skill - Skill Decay Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="mb-4">Edit Skill</h3>
+                <form method="POST" action="{% url 'edit_skill' skill.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="skill_name" class="form-label">Skill Name</label>
+                        <input type="text" class="form-control" id="skill_name" name="skill_name" value="{{ skill.skill_name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="level" class="form-label">Level</label>
+                        <select class="form-select" id="level" name="level">
+                            <option {% if skill.level == 'Beginner' %}selected{% endif %}>Beginner</option>
+                            <option {% if skill.level == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                            <option {% if skill.level == 'Advanced' %}selected{% endif %}>Advanced</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

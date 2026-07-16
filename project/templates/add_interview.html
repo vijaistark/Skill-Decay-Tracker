@@ -1,0 +1,104 @@
+{% extends 'navigation_base.html' %}
+{% block content %}
+  <div class="dashboard-header mb-4">
+    <div>
+      <h1 class="dashboard-title">Add Interview</h1>
+      <p class="dashboard-subtitle">Record your latest mock interview and track patterns over time.</p>
+    </div>
+    <div>
+      <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Back to dashboard</a>
+    </div>
+  </div>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-lg-7">
+        <div class="card shadow-sm">
+          <div class="card-header">Interview Details</div>
+          <div class="card-body">
+            <div class="mb-4">
+              <label class="form-label">Category</label>
+              <input class="form-control" name="category" placeholder="e.g., Backend, Frontend" required value="{{ form.category if form else '' }}">
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Difficulty</label>
+              <input class="form-control" name="difficulty" placeholder="Easy / Medium / Hard" required value="{{ form.difficulty if form else '' }}">
+            </div>
+            <div class="row gx-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label">Overall Score (0-10)</label>
+                <input class="form-control" name="overall" type="number" min="0" max="10" required value="{{ form.overall if form else '' }}">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Result</label>
+                <select class="form-select" name="result" required>
+                  <option value="">Choose result</option>
+                  <option value="pass" {% if form and form.result == 'pass' %}selected{% endif %}>Pass</option>
+                  <option value="fail" {% if form and form.result == 'fail' %}selected{% endif %}>Fail</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm">
+          <div class="card-header">Feedback</div>
+          <div class="card-body">
+            <div class="mb-4">
+              <label class="form-label">Strengths</label>
+              <textarea class="form-control" name="strengths" rows="3" required>{{ form.strengths if form else '' }}</textarea>
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Weaknesses</label>
+              <textarea class="form-control" name="weaknesses" rows="3" required>{{ form.weaknesses if form else '' }}</textarea>
+            </div>
+            <div>
+              <label class="form-label">Remarks</label>
+              <textarea class="form-control" name="remarks" rows="3" required>{{ form.remarks if form else '' }}</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card shadow-sm">
+          <div class="card-header">Skill Scores</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Technical</label>
+              <input class="form-control" name="technical" placeholder="0-10" type="number" min="0" max="10" required value="{{ form.technical if form else '' }}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Communication</label>
+              <input class="form-control" name="communication" placeholder="0-10" type="number" min="0" max="10" required value="{{ form.communication if form else '' }}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Problem Solving</label>
+              <input class="form-control" name="problem_solving" placeholder="0-10" type="number" min="0" max="10" required value="{{ form.problem_solving if form else '' }}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confidence</label>
+              <input class="form-control" name="confidence" placeholder="0-10" type="number" min="0" max="10" required value="{{ form.confidence if form else '' }}">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Debugging</label>
+              <input class="form-control" name="debugging" placeholder="0-10" type="number" min="0" max="10" required value="{{ form.debugging if form else '' }}">
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm text-center">
+          <div class="card-body">
+            <p class="text-secondary small mb-3">Tip: keep scores realistic and consistent to improve trend accuracy.</p>
+            <button class="btn btn-primary w-100">Save Interview</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "navigation_base.html" %}
+
+{% block title %}Dashboard - Skill Decay Tracker{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3>Overview</h3>
+                <p>Total skills: {{ total_skills }}</p>
+                <p>Average strength: {{ average_strength }}</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h4>Recent Logs</h4>
+                {% if recent_logs %}
+                    <ul class="list-group">
+                        {% for log in recent_logs %}
+                        <li class="list-group-item">{{ log.skill.skill_name }} - {{ log.practice_date.date }} - {{ log.hours_practiced }}h</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No recent logs.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>Alerts</h5>
+                {% if skills_with_warnings %}
+                    <ul>
+                        {% for s in skills_with_warnings %}
+                            <li>{{ s.skill.skill_name }} needs attention</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No alerts.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
